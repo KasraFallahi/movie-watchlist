@@ -2,9 +2,10 @@
   "name": "movie-watchlist",
   "version": "0.0.1",
   "private": true,
-  "module": "true",
+  "type": "module",
   "scripts": {
-    "start": "node ./src/app.js"
+    "start:dev": "nodemon ./src/app.js",
+    "setup:db": "node ./src/sequelize/setup.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -14,5 +15,8 @@
     "morgan": "^1.10.0",
     "mysql2": "^2.3.3",
     "sequelize": "^6.23.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
   }
 }

@@ -1,8 +1,12 @@
+import * as dotenv from 'dotenv';
+dotenv.config();
+
 import express from 'express';
 import logger from 'morgan';
+import sequelize from './sequelize/sequelize-config.js';
 
 import indexRouter from './routes/index.js';
-import usersRouter from './routes/users.js';
+import usersRouter from './routes/user.js';
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -22,7 +26,7 @@ app.use('/users', usersRouter);
         app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
     } catch (error) {
         console.log('Unable to connect to the database:');
-        console.log(error.message);
+        console.error(error);
         process.exit(1);
     }
 })();
