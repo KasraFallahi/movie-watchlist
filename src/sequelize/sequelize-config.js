@@ -2,7 +2,7 @@
 import * as dotenv from 'dotenv';
 dotenv.config();
 
-import { Sequelize } from "sequelize";
+import { Sequelize, DataTypes } from 'sequelize';
 
 // database connection configs
 const sequelize = new Sequelize(process.env.DATABASE_URL, {
@@ -12,7 +12,5 @@ const sequelize = new Sequelize(process.env.DATABASE_URL, {
     // logQueryParameters: true,
     // benchmark: true,
 });
-
-(async () => { sequelize.sync({ alter: true }) })();
 
 export default sequelize;

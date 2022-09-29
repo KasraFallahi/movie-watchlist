@@ -1,5 +1,5 @@
-const Comment = (seqInstance, Sequelize, DataTypes) => {
-    seqInstance.define('comment', {
+const Crew = (seqInstance, Sequelize, DataTypes) => {
+    return seqInstance.define('crew', {
 
         id: {
             type: DataTypes.UUID,
@@ -11,4 +11,4 @@ const Comment = (seqInstance, Sequelize, DataTypes) => {
     });
 };
 
-export default Comment;
+export default Crew;

@@ -3,10 +3,10 @@ dotenv.config();
 
 import express from 'express';
 import logger from 'morgan';
-import sequelize from './sequelize/sequelize-config.js';
 
 import indexRouter from './routes/index.js';
 import usersRouter from './routes/user.js';
+import sequelize from './sequelize/sequelize-config.js';
 
 const app = express();
 const PORT = process.env.PORT || 5000;
