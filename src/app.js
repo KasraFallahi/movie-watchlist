@@ -4,8 +4,7 @@ dotenv.config();
 import express from 'express';
 import logger from 'morgan';
 
-import indexRouter from './routes/index.js';
-import usersRouter from './routes/user.js';
+import router from './routes/index.js';
 import sequelize from './sequelize/sequelize-config.js';
 
 const app = express();
@@ -15,8 +14,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/api/v1', router);
 
 (async () => {
     console.log('Checking database connection...');
