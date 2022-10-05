@@ -1,7 +1,9 @@
+import { getMovieById } from '../controllers/movies.js';
 import { Router } from 'express';
 
 const router = Router();
 
-router.route('/').get().post();
+// GET movie by id
+router.route('/:id').get(getMovieById);
 
 export default router;

@@ -9,6 +9,7 @@ const Movie = (seqInstance, Sequelize, DataTypes) => {
         name: {
             type: DataTypes.STRING,
             allowNull: false,
+            unique: true,
             validate: {
                 notEmpty: true
             }
@@ -61,6 +62,7 @@ const Movie = (seqInstance, Sequelize, DataTypes) => {
         imdbLink: {
             type: DataTypes.STRING,
             allowNull: false,
+            unique: true,
             validate: {
                 notEmpty: true,
                 isUrl: true
@@ -75,6 +77,7 @@ const Movie = (seqInstance, Sequelize, DataTypes) => {
         },
         shortLink: {
             type: DataTypes.STRING,
+            unique: true,
             validate: {
                 notEmpty: true
             }

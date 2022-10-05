@@ -9,7 +9,7 @@ const router = Router();
 
 router.use('/admin', admin);
 router.use('/auth', auth);
-router.use('/movies', movies);
+router.use('/film', movies);
 router.use('/user', user);
 
 export default router;
