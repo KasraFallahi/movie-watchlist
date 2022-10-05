@@ -4,22 +4,25 @@ const errorHandler = (err, req, res, next) => {
   let message =
     (statusCode === 500)
       ? "Internal Server Error"
-      : error.message || "Internal Server Error";
+      : err.message || "Internal Server Error";
 
-  if (error.name === "SequelizeValidationError") {
+  if (error?.name === "SequelizeValidationError") {
     const fields = error.map((field) => field.path);
     message = `These fields should not be empty: ${fields.join(", ")}`;
     statusCode = 400;
   }
 
-  if (error.name === "SequelizeUniqueConstraintError") {
+  if (error?.name === "SequelizeUniqueConstraintError") {
     const field = error.map((error) => error.path)[0];
     message = `The ${field} is already taken`;
     statusCode = 400;
   }
 
-  console.log(`[${new Date().toLocaleString()}] `); //TODO set logger
-  console.log(error);
+  if (error) {
+    console.log(`[${new Date().toLocaleString()}] `); //TODO set logger
+    console.log(error);
+  }
+
   res.status(statusCode).json({ success: "false", message });
 };
 
