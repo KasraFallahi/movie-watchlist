@@ -1,5 +1,5 @@
 const Movie = (seqInstance, Sequelize, DataTypes) => {
-    seqInstance.define('movie', {
+    return seqInstance.define('movie', {
         id: {
             type: DataTypes.UUID,
             primaryKey: true,
@@ -46,7 +46,7 @@ const Movie = (seqInstance, Sequelize, DataTypes) => {
             }
         },
         description: {
-            type: DataTypes.STRING,
+            type: DataTypes.TEXT,
             allowNull: false,
             validate: {
                 notEmpty: true
@@ -69,7 +69,7 @@ const Movie = (seqInstance, Sequelize, DataTypes) => {
             }
         },
         length: {
-            type: DataTypes.STRING,
+            type: DataTypes.INTEGER,
             allowNull: false,
             validate: {
                 notEmpty: true
@@ -83,7 +83,7 @@ const Movie = (seqInstance, Sequelize, DataTypes) => {
             }
         },
         myReview: { // only for signed in users
-            type: DataTypes.STRING,
+            type: DataTypes.TEXT,
             validate: {
                 notEmpty: true
             }
