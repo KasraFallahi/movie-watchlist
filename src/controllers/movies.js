@@ -1,5 +1,6 @@
 import { Op } from 'sequelize';
 import sequelize from '../sequelize/sequelize-config.js';
+import { ValidationError } from 'sequelize';
 
 const getMovieById = async (req, res, next) => {
     try {
@@ -57,4 +58,38 @@ const searchMovie = async (req, res, next) => {
     }
 }
 
-export { getMovieById, searchMovie };
+const addMovie = async (req, res, next) => {
+    try {
+
+        // check whether crews is empty
+        if (!req.body.crews || !(req.body.crews instanceof Array)) {
+            throw new ValidationError('crews should not be empty', ['crews']);
+        }
+
+        // ignore field id in request body
+        delete req.body.id;
+
+        const movie = await sequelize.model('movie')
+            .create(req.body);
+
+        // assign movie crew
+        for (const crew of req.body.crews) {
+            await sequelize.model('movie_crew')
+                .create({
+                    movieId: movie.id,
+                    crewId: crew.id,
+                    role: crew.role
+                });
+        }
+
+        res.status(200).json({
+            success: true,
+            message: `movie [${movie.name}] added to database successfully`
+        });
+
+    } catch (error) {
+        return next({ error });
+    }
+}
+
+export { getMovieById, searchMovie, addMovie };

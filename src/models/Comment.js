@@ -1,5 +1,5 @@
 const Comment = (seqInstance, Sequelize, DataTypes) => {
-    seqInstance.define('comment', {
+    return seqInstance.define('comment', {
 
         id: {
             type: DataTypes.UUID,

@@ -1,5 +1,5 @@
 const User = (seqInstance, Sequelize, DataTypes) => {
-    seqInstance.define('user', {
+    return seqInstance.define('user', {
 
         id: {
             type: DataTypes.UUID,
