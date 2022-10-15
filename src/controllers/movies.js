@@ -4,12 +4,18 @@ import { ValidationError } from 'sequelize';
 
 const getMovieById = async (req, res, next) => {
     try {
-        const movie = await sequelize.model('movie')
+
+        let movie = await sequelize.model('movie')
             .findByPk(req.params.id, {
                 attributes: {
-                    exclude: ['id', 'createdAt', 'updatedAt']
+                    exclude: ['id', 'createdAt', 'updatedAt', 'crew.movie_crew']
+                },
+                include: {
+                    model: sequelize.model('crew'),
+                    attributes: ['id', 'name', 'image']
                 }
             });
+
 
         // movie not found
         if (!movie) {
@@ -18,6 +24,10 @@ const getMovieById = async (req, res, next) => {
                 statusCode: 404
             });
         }
+
+        // remove redundant attributes from movie object
+        movie = JSON.parse(JSON.stringify(movie));
+        movie.crews.forEach(crew => delete crew.movie_crew);
 
         res.status(200).json({
             success: true,
