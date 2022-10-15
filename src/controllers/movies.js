@@ -25,9 +25,25 @@ const getMovieById = async (req, res, next) => {
             });
         }
 
-        // remove redundant attributes from movie object
+        // separating cast and directors from crews
         movie = JSON.parse(JSON.stringify(movie));
-        movie.crews.forEach(crew => delete crew.movie_crew);
+        for (let i = 0; i < movie.crews.length; i++) {
+
+            // add crew role
+            movie.crews[i].role = movie.crews[i].movie_crew.role;
+            delete movie.crews[i].movie_crew;
+
+            // add cast and directors to separate arrays
+            movie.cast = [];
+            movie.directors = [];
+            if (movie.crews[i].role === 'actor') {
+                movie.cast.push(movie.crews[i]);
+                movie.crews.splice(i, 1);
+            } else if (movie.crews[i].role === 'director') {
+                movie.directors.push(movie.crews[i]);
+                movie.crews.splice(i, 1);
+            }
+        }
 
         res.status(200).json({
             success: true,
