@@ -32,6 +32,7 @@ const errorHandler = (err, req, res, next) => {
 
   if (error) {
     logger.error(error);
+    console.log(error);
   }
 
   res.status(statusCode).json({ success: "false", message });
