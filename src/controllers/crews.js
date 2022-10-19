@@ -10,7 +10,8 @@ const addCrew = async (req, res, next) => {
 
         res.status(200).json({
             success: true,
-            message: `crew [${crew.name}] added to database successfully`
+            message: `crew [${crew.name}] added to database successfully`,
+            data: { crewId: crew.id }
         });
 
     } catch (error) {
