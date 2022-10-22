@@ -5,7 +5,7 @@ import { ValidationError } from 'sequelize';
 const getMovieById = async (req, res, next) => {
     try {
 
-        let movie = await sequelize.model('movie')
+        const movie = await sequelize.model('movie')
             .findByPk(req.params.id, {
                 attributes: {
                     exclude: ['id', 'createdAt', 'updatedAt', 'crew.movie_crew']
@@ -25,29 +25,35 @@ const getMovieById = async (req, res, next) => {
             });
         }
 
+        // converting movie to regular object
+        let movieObject = JSON.parse(JSON.stringify(movie));
+
+
+        // add cast and directors to separate arrays
+        movieObject.cast = [];
+        movieObject.directors = [];
+
         // separating cast and directors from crews
-        movie = JSON.parse(JSON.stringify(movie));
-        for (let i = 0; i < movie.crews.length; i++) {
+        for (let i = 0; i < movieObject.crews.length; i++) {
 
             // add crew role
-            movie.crews[i].role = movie.crews[i].movie_crew.role;
-            delete movie.crews[i].movie_crew;
+            movieObject.crews[i].role = movieObject.crews[i].movie_crew.role;
+            delete movieObject.crews[i].movie_crew;
 
-            // add cast and directors to separate arrays
-            movie.cast = [];
-            movie.directors = [];
-            if (movie.crews[i].role === 'actor') {
-                movie.cast.push(movie.crews[i]);
-                movie.crews.splice(i, 1);
-            } else if (movie.crews[i].role === 'director') {
-                movie.directors.push(movie.crews[i]);
-                movie.crews.splice(i, 1);
+            if (movieObject.crews[i].role == 'actor') {
+                movieObject.cast.push(movieObject.crews[i]);
+                movieObject.crews.splice(i, 1);
+                i--;
+            } else if (movieObject.crews[i].role == 'Director') {
+                movieObject.directors.push(movieObject.crews[i]);
+                movieObject.crews.splice(i, 1);
+                i--;
             }
         }
 
         res.status(200).json({
             success: true,
-            data: { movie }
+            data: { movieObject }
         });
 
     } catch (error) {
